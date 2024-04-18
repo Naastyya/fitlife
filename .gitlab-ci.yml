@@ -24,7 +24,7 @@ stages:
 
 cache:
   paths:
-    -node_modules/
+    - node_modules/
 
 build-pages:
   stage: build
