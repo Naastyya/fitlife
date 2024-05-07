@@ -8,7 +8,7 @@ permissions:
     contents: read
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -33,7 +33,7 @@ jobs:
           docker build . -t fitlifeweb.azurecr.io/myapp:${{ github.sha }}
           docker push fitlifeweb.azurecr.io/myapp:${{ github.sha }}
         
-      - uses: azure/webapps-deploy@v2
+      - uses: azure/webapps-deploy@v3
         with:
           app-name: 'continerappfit'
           images: 'fitlifeweb.azurecr.io/myapp:${{ github.sha }}'
