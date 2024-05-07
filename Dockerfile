@@ -4,4 +4,4 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 COPY . /app
-CMD ["node", "app.js"]
+CMD ["node", "index.html"]
