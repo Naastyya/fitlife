@@ -17,6 +17,9 @@ jobs:
       - name: 'Checkout GitHub Action' 
         uses: actions/checkout@main
 
+      - name: 'Debug: Print Azure Tenant ID'
+        run: echo ' ${{ secrets.AZURE_TENANT_ID }}'
+
       - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:
@@ -27,14 +30,22 @@ jobs:
           login-server: fitlifeweb.azurecr.io
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
+
       - run: |
           docker build . -t fitlifeweb.azurecr.io/myapp:${{ github.sha }}
           docker push fitlifeweb.azurecr.io/myapp:${{ github.sha }}
+
+      - name: 'Debug: List Docker Images'
+        run: docker images
+
+      - name: 'Debug: List Docker Containers'
+        run: docker ps -a
         
       - uses: azure/webapps-deploy@v3
         with:
           app-name: 'continerappfit'
           images: 'fitlifeweb.azurecr.io/myapp:${{ github.sha }}'
-        
+
       - name: Azure logout
         run: |
+          az logout
